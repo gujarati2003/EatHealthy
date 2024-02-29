@@ -12,4 +12,11 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/eat_healthy_logo" />
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="600dp"
+        android:layout_alignRight="@+id/logo"
+        android:layout_marginTop="90dp"
+        android:layout_marginRight="-70dp" />
+
 </RelativeLayout>

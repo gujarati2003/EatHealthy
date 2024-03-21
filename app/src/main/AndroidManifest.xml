@@ -13,16 +13,44 @@
         android:theme="@style/Theme.EatHealthy"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.EatHealthy">
+            android:name=".SplashScreenActivity"
+            android:theme="@style/SplashScreenTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RecipeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginOrCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateAccountActivity"
+            android:exported="false"
+            android:label="@string/title_activity_create_account"
+            android:theme="@style/Theme.EatHealthy" />
+        <activity
+            android:name=".AccountActivity"
+            android:exported="false"
+            android:label="@string/title_activity_account"
+            android:theme="@style/Theme.EatHealthy" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.EatHealthy">
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

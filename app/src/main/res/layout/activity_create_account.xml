@@ -23,7 +23,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="#E8FFF5"
+        android:backgroundTint="#006400"
         android:layout_alignBottom="@+id/enter_password"
         android:fontFamily="@font/abril_fatface"
         android:text="Create account"

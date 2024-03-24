@@ -27,7 +27,7 @@ class CreateAccountActivity : AppCompatActivity() {
         val firstName = binding.enterName1.text.toString()
         val lastName = binding.enterName2.text.toString()
         val email = binding.enterUsername.text.toString()
-        val password = binding.password.text.toString()
+        val password = binding.enterPassword.text.toString()
 
         if(firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank() && isValidEmail(email)){
             if (!isEmailExists(email)) {

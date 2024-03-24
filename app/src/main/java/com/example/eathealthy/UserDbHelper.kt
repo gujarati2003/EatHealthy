@@ -1,5 +1,6 @@
 package com.example.eathealthy
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -19,15 +20,15 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         const val COLUMN_PASSWORD_USER = "password"
         const val TABLE_NAME_RECIPES = "recipes"
         const val COLUMN_ID_RECIPES = "id"
-        const val COLUMN_ID_USER_RECIPES = "id"
+        const val COLUMN_ID_USER_RECIPES = "user_id" // Changed the name for clarity
         const val COLUMN_NAME_RECIPES = "name"
         const val COLUMN_IMG_RECIPES = "img"
         const val COLUMN_INGREDIENTS_RECIPES = "ingredients"
         const val COLUMN_DIRECTIONS_RECIPES = "directions"
         const val TABLE_NAME_FAVORITES = "favorites"
         const val COLUMN_ID_FAVORITES = "id"
-        const val COLUMN_ID_USER_FAVORITES = "id"
-        const val COLUMN_ID_RECIPES_FAVORITES = "id"
+        const val COLUMN_ID_USER_FAVORITES = "user_id" // Changed the name for clarity
+        const val COLUMN_ID_RECIPES_FAVORITES = "recipe_id" // Changed the name for clarity
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -41,20 +42,20 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         val CREATE_TABLE_RECIPES = ("CREATE TABLE $TABLE_NAME_RECIPES (" +
                 "$COLUMN_ID_RECIPES INTEGER PRIMARY KEY," +
-                "$COLUMN_ID_USER_RECIPES INTEGER" +
+                "$COLUMN_ID_USER_RECIPES INTEGER," + // Added missing comma
                 "$COLUMN_NAME_RECIPES TEXT," +
                 "$COLUMN_IMG_RECIPES BLOB," +
                 "$COLUMN_INGREDIENTS_RECIPES TEXT," +
                 "$COLUMN_DIRECTIONS_RECIPES TEXT," +
-                "FOREIGN KEY($COLUMN_ID_USER_RECIPES) REFERENCES  $TABLE_NAME_USER($COLUMN_ID_USER)")
+                "FOREIGN KEY($COLUMN_ID_USER_RECIPES) REFERENCES  $TABLE_NAME_USER($COLUMN_ID_USER))")
         db?.execSQL(CREATE_TABLE_RECIPES)
 
         val CREATE_TABLE_FAVORITES = ("CREATE TABLE $TABLE_NAME_FAVORITES (" +
                 "$COLUMN_ID_FAVORITES INTEGER PRIMARY KEY," +
-                "$COLUMN_ID_USER_FAVORITES INTEGER" +
-                "$COLUMN_ID_RECIPES_FAVORITES TEXT," +
-                "FOREIGN KEY($COLUMN_ID_USER_FAVORITES) REFERENCES  $TABLE_NAME_USER($COLUMN_ID_USER)" +
-                "FOREIGN KEY($COLUMN_ID_RECIPES_FAVORITES) REFERENCES  $TABLE_NAME_RECIPES($COLUMN_ID_RECIPES)")
+                "$COLUMN_ID_USER_FAVORITES INTEGER," + // Added missing comma
+                "$COLUMN_ID_RECIPES_FAVORITES INTEGER," + // Added missing comma
+                "FOREIGN KEY($COLUMN_ID_USER_FAVORITES) REFERENCES  $TABLE_NAME_USER($COLUMN_ID_USER)," +
+                "FOREIGN KEY($COLUMN_ID_RECIPES_FAVORITES) REFERENCES  $TABLE_NAME_RECIPES($COLUMN_ID_RECIPES))")
         db?.execSQL(CREATE_TABLE_FAVORITES)
     }
 
@@ -80,11 +81,33 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     fun getUserByEmail(email: String): Cursor? {
         val db = this.readableDatabase
+        var data = db.rawQuery("SELECT * FROM $TABLE_NAME_USER", arrayOf())
         return db.rawQuery("SELECT * FROM $TABLE_NAME_USER WHERE $COLUMN_EMAIL_USER = ?", arrayOf(email))
     }
 
+    fun getUsersByEmailAndPassword(email: String, password: String): Cursor? {
+        val db = this.readableDatabase
+        var data = db.rawQuery("SELECT * FROM $TABLE_NAME_USER", arrayOf())
+        return db.rawQuery("SELECT * FROM $TABLE_NAME_USER WHERE $COLUMN_EMAIL_USER = ? AND $COLUMN_PASSWORD_USER = ?", arrayOf(email, password))
+    }
+
+    @SuppressLint("Range")
+    fun getName(email: String, password: String): String? {
+        val db = this.readableDatabase
+        var firstName: String? = null
+        val cursor = db.rawQuery(
+            "SELECT $COLUMN_FIRST_NAME_USER FROM $TABLE_NAME_USER WHERE $COLUMN_EMAIL_USER = ? AND $COLUMN_PASSWORD_USER = ?",
+            arrayOf(email, password)
+        )
+        if (cursor != null && cursor.moveToFirst()) {
+            firstName = cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_NAME_USER))
+        }
+        cursor?.close()
+        return firstName
+    }
+
     // recipes
-    fun addRecipes(name: String, ingredients: String, directions: String): Long {
+    fun addRecipe(name: String, ingredients: String, directions: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(COLUMN_NAME_RECIPES, name)
@@ -95,7 +118,7 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         return id
     }
 
-    fun addToFavorites(userId: String, recipeId: String): Long {
+    fun addToFavorites(userId: Long, recipeId: Long): Long {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(COLUMN_ID_USER_FAVORITES, userId)

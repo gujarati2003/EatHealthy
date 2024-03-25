@@ -29,8 +29,6 @@ class AccountActivity : AppCompatActivity() {
             val cursor = userDbHelper.getUsersByEmailAndPassword(username!!, password!!)
             val name = userDbHelper.getName(username!!, password!!)
             binding.hi.text = "Hi $name"
-        } else {
-
         }
     }
 }

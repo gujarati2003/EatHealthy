@@ -20,6 +20,10 @@ class HomeActivity : AppCompatActivity() {
         password = intent.getStringExtra("password")
 
         binding.addBtn.setOnClickListener{
+            val i = Intent(this, AddRecipeActivity::class.java)
+            i.putExtra("username", username)
+            i.putExtra("password", password)
+            startActivity(i)
         }
 
         binding.accountBtn.setOnClickListener{

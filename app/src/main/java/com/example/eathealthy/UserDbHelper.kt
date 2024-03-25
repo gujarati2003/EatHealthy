@@ -106,18 +106,34 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         return firstName
     }
 
+    @SuppressLint("Range")
+    fun getId(email: String, password: String): Int? {
+        val db = this.readableDatabase
+        var id: Int? = null
+        val cursor = db.rawQuery(
+            "SELECT $COLUMN_ID_USER FROM $TABLE_NAME_USER WHERE $COLUMN_EMAIL_USER = ? AND $COLUMN_PASSWORD_USER = ?",
+            arrayOf(email, password)
+        )
+        if (cursor != null && cursor.moveToFirst()) {
+            id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_USER))
+        }
+        cursor?.close()
+        return id
+    }
+
     // recipes
-    fun addRecipe(name: String, ingredients: String, directions: String): Long {
+    fun addRecipe(userId: Int?, name: String, byteArray: ByteArray, ingredients: String, directions: String): Long {
         val db = this.writableDatabase
         val values = ContentValues()
+        values.put(COLUMN_ID_USER_RECIPES, userId)
         values.put(COLUMN_NAME_RECIPES, name)
+        values.put(COLUMN_IMG_RECIPES, byteArray)
         values.put(COLUMN_INGREDIENTS_RECIPES, ingredients)
         values.put(COLUMN_DIRECTIONS_RECIPES, directions)
         val id = db.insert(TABLE_NAME_RECIPES, null, values)
         db.close()
         return id
     }
-
     fun addToFavorites(userId: Long, recipeId: Long): Long {
         val db = this.writableDatabase
         val values = ContentValues()

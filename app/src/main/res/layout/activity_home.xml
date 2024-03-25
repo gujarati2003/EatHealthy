@@ -13,10 +13,32 @@
         android:src="@drawable/eat_healthy_logo" />
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="wrap_content"
         android:layout_height="600dp"
         android:layout_alignRight="@+id/logo"
         android:layout_marginTop="90dp"
         android:layout_marginRight="-70dp" />
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/scroll"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="-32dp"
+        android:backgroundTint="@color/green"
+        android:text="add" />
+
+    <Button
+        android:id="@+id/accountBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/addBtn"
+        android:layout_alignBottom="@+id/scroll"
+        android:layout_marginRight="-304dp"
+        android:layout_marginBottom="-32dp"
+        android:backgroundTint="@color/green"
+        android:text="account" />
 
 </RelativeLayout>

@@ -10,6 +10,8 @@ import com.example.eathealthy.databinding.ActivityLoginBinding
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userDbHelper: UserDbHelper
+    private lateinit var username: String
+    private lateinit var password: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,18 +19,20 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         userDbHelper = UserDbHelper(this)
 
-        binding.loginBtn.setOnClickListener{
-            if(login()){
-                val i = Intent(this, HomeActivity:: class .java)
+        username = binding.enterUsername.text.toString()
+        password = binding.enterPassword.text.toString()
+
+        binding.loginBtn.setOnClickListener {
+            if (login()) {
+                val i = Intent(this, HomeActivity::class.java)
+                i.putExtra("username", username)
+                i.putExtra("password", password)
                 startActivity(i)
             }
         }
     }
 
     private fun login(): Boolean {
-        val username = binding.enterUsername.text.toString()
-        val password = binding.enterPassword.text.toString()
-
         if (username.isNotBlank() && password.isNotBlank() && isValidEmail(username)) {
             if (isEmailExists(username)) {
                 val cursor = userDbHelper.getUsersByEmailAndPassword(username, password)
@@ -60,3 +64,4 @@ class LoginActivity : AppCompatActivity() {
         return count > 0
     }
 }
+

@@ -19,11 +19,10 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         userDbHelper = UserDbHelper(this)
 
-        username = binding.enterUsername.text.toString()
-        password = binding.enterPassword.text.toString()
-
         binding.loginBtn.setOnClickListener {
-            if (login()) {
+            val username = binding.enterUsername.text.trim().toString()
+            val password = binding.enterPassword.text.trim().toString()
+            if (login(username, password)) {
                 val i = Intent(this, HomeActivity::class.java)
                 i.putExtra("username", username)
                 i.putExtra("password", password)
@@ -32,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login(): Boolean {
+    private fun login(username: String, password: String): Boolean {
         if (username.isNotBlank() && password.isNotBlank() && isValidEmail(username)) {
             if (isEmailExists(username)) {
                 val cursor = userDbHelper.getUsersByEmailAndPassword(username, password)

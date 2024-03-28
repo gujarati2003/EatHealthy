@@ -10,6 +10,7 @@ class AccountActivity : AppCompatActivity() {
     private lateinit var userDbHelper: UserDbHelper
     private var username: String? = null
     private var password: String? = null
+    private var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +20,7 @@ class AccountActivity : AppCompatActivity() {
         userDbHelper = UserDbHelper(this)
         username = intent.getStringExtra("username")
         password = intent.getStringExtra("password")
+        id = intent.getIntExtra("id", 0)
 
         if (username != null && password != null) {
             val cursor = userDbHelper.getUsersByEmailAndPassword(username!!, password!!)
@@ -30,6 +32,7 @@ class AccountActivity : AppCompatActivity() {
             val i = Intent(this, FavoritesActivity::class.java)
             i.putExtra("username", username)
             i.putExtra("password", password)
+            i.putExtra("id", id)
             startActivity(i)
         }
     }

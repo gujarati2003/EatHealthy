@@ -13,6 +13,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var userDbHelper: UserDbHelper
     private var username: String? = null
     private var password: String? = null
+    private var id: Int? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -22,7 +23,7 @@ class HomeActivity : AppCompatActivity() {
         password = intent.getStringExtra("password")
 
         val recipes = userDbHelper.getAllRecipes()
-        val id = userDbHelper.getId(username!!, password!!)
+        id = userDbHelper.getId(username!!, password!!)
         Toast.makeText(this, "$id", LENGTH_LONG).show()
         val adapter = RecipeAdapter(username!!, password!!,this, recipes, id!!)
         binding.recipesRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -32,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
             val i = Intent(this, AddRecipeActivity::class.java)
             i.putExtra("username", username)
             i.putExtra("password", password)
+            i.putExtra("id", id)
             startActivity(i)
         }
 
@@ -39,6 +41,7 @@ class HomeActivity : AppCompatActivity() {
             val i = Intent(this, AccountActivity::class.java)
             i.putExtra("username", username)
             i.putExtra("password", password)
+            i.putExtra("id", id)
             startActivity(i)
         }
     }

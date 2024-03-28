@@ -1,5 +1,6 @@
 package com.example.eathealthy
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.eathealthy.databinding.ActivityAccountBinding
@@ -23,6 +24,13 @@ class AccountActivity : AppCompatActivity() {
             val cursor = userDbHelper.getUsersByEmailAndPassword(username!!, password!!)
             val name = userDbHelper.getName(username!!, password!!)
             binding.hi.text = "Hi $name"
+        }
+
+        binding.favoritesBtn.setOnClickListener{
+            val i = Intent(this, FavoritesActivity::class.java)
+            i.putExtra("username", username)
+            i.putExtra("password", password)
+            startActivity(i)
         }
     }
 }

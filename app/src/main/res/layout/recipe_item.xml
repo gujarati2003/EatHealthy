@@ -19,20 +19,74 @@ android:padding="8dp">
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:text="Recipe Name"
+    android:fontFamily="@font/abril_fatface"
+    android:textSize="22dp"
     android:textAppearance="@style/TextAppearance.AppCompat.Large"
     app:layout_constraintStart_toEndOf="@id/recipeImage"
     app:layout_constraintTop_toTopOf="@id/recipeImage"
     app:layout_constraintEnd_toEndOf="parent"
+    android:layout_marginLeft="10dp"
     app:layout_constraintBottom_toTopOf="@id/recipeIngredients" />
 
-<TextView
-    android:id="@+id/recipeIngredients"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:text="Ingredients"
-    app:layout_constraintStart_toStartOf="@id/recipeName"
-    app:layout_constraintTop_toBottomOf="@id/recipeName"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toBottomOf="@id/recipeImage" />
+    <TextView
+        android:id="@+id/recipeCreatorBy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="By:   "
+        android:fontFamily="@font/abril_fatface"
+        android:textSize="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintTop_toTopOf="@id/recipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="70dp"
+        app:layout_constraintBottom_toTopOf="@id/recipeIngredients" />
+    <TextView
+        android:id="@+id/recipeCreator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Amy "
+        android:fontFamily="@font/abril_fatface"
+        android:textSize="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintTop_toTopOf="@id/recipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="42dp"
+        app:layout_constraintBottom_toTopOf="@id/recipeIngredients" />
+    <TextView
+        android:id="@+id/recipeIngredients"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/abril_fatface"
+        android:text="Ingredients"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/recipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintTop_toBottomOf="@id/recipeName" />
 
+    <ImageView
+        android:id="@+id/favImg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/favbtn"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/recipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.845"
+        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintTop_toBottomOf="@id/recipeName"
+        app:layout_constraintVertical_bias="0.514" />
+    <Button
+        android:id="@+id/favBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:backgroundTint="#c7e2cd"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@id/recipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="@id/recipeName"
+        app:layout_constraintTop_toBottomOf="@id/recipeName"
+ />
 </androidx.constraintlayout.widget.ConstraintLayout>

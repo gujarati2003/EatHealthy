@@ -26,6 +26,8 @@ class LoginActivity : AppCompatActivity() {
                 val i = Intent(this, HomeActivity::class.java)
                 i.putExtra("username", username)
                 i.putExtra("password", password)
+
+                Toast.makeText(this, "$username $password", Toast.LENGTH_LONG).show()
                 startActivity(i)
             }
         }

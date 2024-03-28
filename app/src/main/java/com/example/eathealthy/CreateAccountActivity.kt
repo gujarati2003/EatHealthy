@@ -10,7 +10,8 @@ import com.example.eathealthy.databinding.ActivityCreateAccountBinding
 class CreateAccountActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAccountBinding
     private lateinit var userDbHelper: UserDbHelper
-
+    private lateinit var username: String
+    private lateinit var password: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateAccountBinding.inflate(layoutInflater)
@@ -27,14 +28,19 @@ class CreateAccountActivity : AppCompatActivity() {
         val firstName = binding.enterName1.text.toString()
         val lastName = binding.enterName2.text.toString()
         val email = binding.enterUsername.text.toString()
-        val password = binding.enterPassword.text.toString()
+        val password1 = binding.enterPassword.text.toString()
+        username = binding.enterUsername.text.trim().toString()
+        password = binding.enterPassword.text.trim().toString()
 
         if(firstName.isNotBlank() && lastName.isNotBlank() && email.isNotBlank() && isValidEmail(email)){
             if (!isEmailExists(email)) {
-                val success = userDbHelper.addUser(firstName, lastName, email, password)
+                val success = userDbHelper.addUser(firstName, lastName, email, password1)
                 if (success != -1L) {
                     Toast.makeText(this, "Welcome, $firstName!", Toast.LENGTH_SHORT).show()
                     val i = Intent(this, HomeActivity::class.java)
+                    i.putExtra("username", username)
+                    i.putExtra("password", password)
+                    Toast.makeText(this, "$email $password1", Toast.LENGTH_LONG).show()
                     startActivity(i)
                 } else {
                     Toast.makeText(this, "Failed to create account", Toast.LENGTH_SHORT).show()

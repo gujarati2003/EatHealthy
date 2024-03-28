@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.eathealthy.databinding.ActivityHomeBinding
-import android.util.Log
 import android.widget.Toast
 import android.widget.Toast.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,10 +21,10 @@ class HomeActivity : AppCompatActivity() {
         username = intent.getStringExtra("username")
         password = intent.getStringExtra("password")
 
-        Toast.makeText(this, "$username $password", LENGTH_LONG).show()
-
         val recipes = userDbHelper.getAllRecipes()
-        val adapter = RecipeAdapter(recipes)
+        val id = userDbHelper.getId(username!!, password!!)
+        Toast.makeText(this, "$id", LENGTH_LONG).show()
+        val adapter = RecipeAdapter(username!!, password!!,this, recipes, id!!)
         binding.recipesRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.recipesRecyclerView.adapter = adapter
 

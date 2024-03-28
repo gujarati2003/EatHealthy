@@ -20,8 +20,8 @@ class LoginActivity : AppCompatActivity() {
         userDbHelper = UserDbHelper(this)
 
         binding.loginBtn.setOnClickListener {
-            val username = binding.enterUsername.text.trim().toString()
-            val password = binding.enterPassword.text.trim().toString()
+            username = binding.enterUsername.text.trim().toString()
+            password = binding.enterPassword.text.trim().toString()
             if (login(username, password)) {
                 val i = Intent(this, HomeActivity::class.java)
                 i.putExtra("username", username)

@@ -5,27 +5,32 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
-        android:requestLegacyExternalStorage="true"
-        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/heart"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/heart"
         android:supportsRtl="true"
         android:theme="@style/Theme.EatHealthy"
         tools:targetApi="31">
         <activity
+            android:name=".MyRecipeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FavoritesActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddRecipeActivity"
-            android:exported="false"
-            />
+            android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true"
@@ -62,9 +67,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.EatHealthy">
-
-        </activity>
+            android:theme="@style/Theme.EatHealthy" />
 
         <meta-data
             android:name="preloaded_fonts"

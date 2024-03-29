@@ -50,7 +50,7 @@
         android:textSize="20sp"
         android:textStyle="bold" />
     <Button
-        android:id="@+id/settings"
+        android:id="@+id/logOutbtn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/my_recipes_btn"
@@ -58,7 +58,7 @@
         android:layout_marginBottom="-90dp"
         android:backgroundTint="#006400"
         android:fontFamily="@font/abril_fatface"
-        android:text="Settings"
+        android:text="Log Out"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textStyle="bold" />

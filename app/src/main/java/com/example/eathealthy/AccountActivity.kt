@@ -35,5 +35,18 @@ class AccountActivity : AppCompatActivity() {
             i.putExtra("id", id)
             startActivity(i)
         }
+
+        binding.myRecipesBtn.setOnClickListener{
+            val i = Intent(this, MyRecipeActivity::class.java)
+            i.putExtra("username", username)
+            i.putExtra("password", password)
+            i.putExtra("id", id)
+            startActivity(i)
+        }
+
+        binding.logOutbtn.setOnClickListener{
+            val i = Intent(this, LoginOrCreateActivity::class.java)
+            startActivity(i)
+        }
     }
 }

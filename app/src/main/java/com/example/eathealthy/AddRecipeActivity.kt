@@ -53,10 +53,7 @@ class AddRecipeActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            // Handle image capture from camera
-            // ...
         } else if (requestCode == REQUEST_IMAGE_FROM_GALLERY && resultCode == RESULT_OK) {
-            // Handle image selection from gallery
             val selectedImageUri: Uri? = data?.data
             if (selectedImageUri != null) {
                 imageBitmap =

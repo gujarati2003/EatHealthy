@@ -6,7 +6,6 @@ import com.example.eathealthy.databinding.ActivityUpdateBinding
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.widget.Toast
-import com.example.eathealthy.UserDbHelper
 
 
 class UpdateActivity : AppCompatActivity() {

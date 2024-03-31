@@ -3,8 +3,6 @@ package com.example.eathealthy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.eathealthy.databinding.ActivityFavoritesBinding
-import android.widget.Toast
-import android.widget.Toast.*
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class FavoritesActivity : AppCompatActivity() {

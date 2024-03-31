@@ -20,15 +20,15 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         const val COLUMN_PASSWORD_USER = "password"
         const val TABLE_NAME_RECIPES = "recipes"
         const val COLUMN_ID_RECIPES = "id"
-        const val COLUMN_ID_USER_RECIPES = "user_id" // Changed the name for clarity
+        const val COLUMN_ID_USER_RECIPES = "user_id"
         const val COLUMN_NAME_RECIPES = "name"
         const val COLUMN_IMG_RECIPES = "img"
         const val COLUMN_INGREDIENTS_RECIPES = "ingredients"
         const val COLUMN_DIRECTIONS_RECIPES = "directions"
         const val TABLE_NAME_FAVORITES = "favorites"
         const val COLUMN_ID_FAVORITES = "id"
-        const val COLUMN_ID_USER_FAVORITES = "user_id" // Changed the name for clarity
-        const val COLUMN_ID_RECIPES_FAVORITES = "recipe_id" // Changed the name for clarity
+        const val COLUMN_ID_USER_FAVORITES = "user_id"
+        const val COLUMN_ID_RECIPES_FAVORITES = "recipe_id"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -42,7 +42,7 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         val CREATE_TABLE_RECIPES = ("CREATE TABLE $TABLE_NAME_RECIPES (" +
                 "$COLUMN_ID_RECIPES INTEGER PRIMARY KEY," +
-                "$COLUMN_ID_USER_RECIPES INTEGER," + // Added missing comma
+                "$COLUMN_ID_USER_RECIPES INTEGER," +
                 "$COLUMN_NAME_RECIPES TEXT," +
                 "$COLUMN_IMG_RECIPES BLOB," +
                 "$COLUMN_INGREDIENTS_RECIPES TEXT," +
@@ -52,8 +52,8 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         val CREATE_TABLE_FAVORITES = ("CREATE TABLE $TABLE_NAME_FAVORITES (" +
                 "$COLUMN_ID_FAVORITES INTEGER PRIMARY KEY," +
-                "$COLUMN_ID_USER_FAVORITES INTEGER," + // Added missing comma
-                "$COLUMN_ID_RECIPES_FAVORITES INTEGER," + // Added missing comma
+                "$COLUMN_ID_USER_FAVORITES INTEGER," +
+                "$COLUMN_ID_RECIPES_FAVORITES INTEGER," +
                 "FOREIGN KEY($COLUMN_ID_USER_FAVORITES) REFERENCES  $TABLE_NAME_USER($COLUMN_ID_USER)," +
                 "FOREIGN KEY($COLUMN_ID_RECIPES_FAVORITES) REFERENCES  $TABLE_NAME_RECIPES($COLUMN_ID_RECIPES))")
         db?.execSQL(CREATE_TABLE_FAVORITES)
@@ -136,17 +136,6 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         return id
     }
 
-//    fun update(id: Int, name: String, ingredients: String, directions: String) {
-//        val db = this.writableDatabase
-//        val query = """
-//        UPDATE $TABLE_NAME_RECIPES
-//        SET $COLUMN_NAME_RECIPES = $name, $COLUMN_INGREDIENTS_RECIPES = $ingredients, $COLUMN_DIRECTIONS_RECIPES = $directions
-//        WHERE $COLUMN_ID_RECIPES = $id
-//    """.trimIndent()
-//
-//        db?.execSQL(query)
-//        db.close()
-//    }
     fun update(id: Int, name: String, ingredients: String, directions: String) {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -176,13 +165,13 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var name: String? = null
         val cursor = db.rawQuery(
             "SELECT $COLUMN_FIRST_NAME_USER FROM $TABLE_NAME_USER WHERE $COLUMN_ID_USER = ?",
-            arrayOf(id.toString()) // Convert id to String
+            arrayOf(id.toString())
         )
         if (cursor.moveToFirst()) {
             name = cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_NAME_USER))
         }
         cursor.close()
-        return name // Return name, which can be null
+        return name
     }
 
     @SuppressLint("Range")
@@ -191,13 +180,13 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var name: String? = null
         val cursor = db.rawQuery(
             "SELECT $COLUMN_EMAIL_USER FROM $TABLE_NAME_USER WHERE $COLUMN_ID_USER = ?",
-            arrayOf(id.toString()) // Convert id to String
+            arrayOf(id.toString())
         )
         if (cursor.moveToFirst()) {
             name = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL_USER))
         }
         cursor.close()
-        return name // Return name, which can be null
+        return name
     }
 
     @SuppressLint("Range")
@@ -206,13 +195,13 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         var name: String? = null
         val cursor = db.rawQuery(
             "SELECT ${COLUMN_PASSWORD_USER} FROM $TABLE_NAME_USER WHERE $COLUMN_ID_USER = ?",
-            arrayOf(id.toString()) // Convert id to String
+            arrayOf(id.toString())
         )
         if (cursor.moveToFirst()) {
             name = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD_USER))
         }
         cursor.close()
-        return name // Return name, which can be null
+        return name
     }
     fun removeRecipe(recipeId: Int) {
         val db = this.writableDatabase
@@ -241,7 +230,6 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         val recipesList = ArrayList<Recipe>()
         val db = this.readableDatabase
 
-        // Updated query to include a JOIN with the users table
         val query = """
         SELECT $TABLE_NAME_RECIPES.* FROM $TABLE_NAME_RECIPES
         JOIN $TABLE_NAME_USER ON $TABLE_NAME_RECIPES.$COLUMN_ID_USER_RECIPES = $TABLE_NAME_USER.$COLUMN_ID_USER
@@ -250,39 +238,7 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         val cursor: Cursor? = try {
             db.rawQuery(query, null)
         } catch (e: Exception) {
-            e.printStackTrace() // Log the exception
-            return ArrayList()
-        }
-
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                val id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_RECIPES))
-                val userId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_USER_RECIPES))
-                val name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_RECIPES))
-                val img = cursor.getBlob(cursor.getColumnIndex(COLUMN_IMG_RECIPES))
-                val ingredients = cursor.getString(cursor.getColumnIndex(COLUMN_INGREDIENTS_RECIPES))
-                val directions = cursor.getString(cursor.getColumnIndex(COLUMN_DIRECTIONS_RECIPES))
-                val recipe = Recipe(id, userId, name, img, ingredients, directions)
-                recipesList.add(recipe)
-            } while (cursor.moveToNext())
-        }
-        cursor?.close()
-        return recipesList
-    }
-
-    fun deleteRecipe(id: Int): ArrayList<Recipe> {
-        val recipesList = ArrayList<Recipe>()
-        val db = this.readableDatabase
-
-        val query = """
-        DELETE FROM $TABLE_NAME_RECIPES
-        WHERE $COLUMN_ID_RECIPES = $id
-    """.trimIndent()
-
-        val cursor: Cursor? = try {
-            db.rawQuery(query, null)
-        } catch (e: Exception) {
-            e.printStackTrace() // Log the exception
+            e.printStackTrace()
             return ArrayList()
         }
 

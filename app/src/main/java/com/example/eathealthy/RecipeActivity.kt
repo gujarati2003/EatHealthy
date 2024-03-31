@@ -3,7 +3,6 @@ package com.example.eathealthy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.eathealthy.databinding.ActivityRecipeBinding
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.widget.Toast
 

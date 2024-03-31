@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class FavoritesRecipeAdapter(private val username: String, private val password: String, private val context: Context, private val recipeList: List<Recipe>, private val id: Int, private val type: String) : RecyclerView.Adapter<FavoritesRecipeAdapter.RecipeViewHolder>() {
@@ -42,10 +41,8 @@ class FavoritesRecipeAdapter(private val username: String, private val password:
 
         holder.removeBtn.setOnClickListener {
             if(type == "Favorites"){
-                //remove from favorites table
                 userDbHelper.removeFavRecipe(recipe.id)
             }else{
-                //remove from recipes table
                 userDbHelper.removeRecipe(recipe.id)
             }
         }

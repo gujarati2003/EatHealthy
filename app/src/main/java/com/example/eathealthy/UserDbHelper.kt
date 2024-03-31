@@ -135,6 +135,31 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         db.close()
         return id
     }
+
+//    fun update(id: Int, name: String, ingredients: String, directions: String) {
+//        val db = this.writableDatabase
+//        val query = """
+//        UPDATE $TABLE_NAME_RECIPES
+//        SET $COLUMN_NAME_RECIPES = $name, $COLUMN_INGREDIENTS_RECIPES = $ingredients, $COLUMN_DIRECTIONS_RECIPES = $directions
+//        WHERE $COLUMN_ID_RECIPES = $id
+//    """.trimIndent()
+//
+//        db?.execSQL(query)
+//        db.close()
+//    }
+    fun update(id: Int, name: String, ingredients: String, directions: String) {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(COLUMN_NAME_RECIPES, name)
+            put(COLUMN_INGREDIENTS_RECIPES, ingredients)
+            put(COLUMN_DIRECTIONS_RECIPES, directions)
+        }
+        val selection = "$COLUMN_ID_RECIPES = ?"
+        val selectionArgs = arrayOf(id.toString())
+        db.update(TABLE_NAME_RECIPES, values, selection, selectionArgs)
+        db.close()
+    }
+
     fun addToFavorites(userId: Int, recipeId: Int): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -160,6 +185,35 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         return name // Return name, which can be null
     }
 
+    @SuppressLint("Range")
+    fun getUsername(id: Int): String? {
+        val db = this.readableDatabase
+        var name: String? = null
+        val cursor = db.rawQuery(
+            "SELECT $COLUMN_EMAIL_USER FROM $TABLE_NAME_USER WHERE $COLUMN_ID_USER = ?",
+            arrayOf(id.toString()) // Convert id to String
+        )
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL_USER))
+        }
+        cursor.close()
+        return name // Return name, which can be null
+    }
+
+    @SuppressLint("Range")
+    fun getPassword(id: Int): String? {
+        val db = this.readableDatabase
+        var name: String? = null
+        val cursor = db.rawQuery(
+            "SELECT ${COLUMN_PASSWORD_USER} FROM $TABLE_NAME_USER WHERE $COLUMN_ID_USER = ?",
+            arrayOf(id.toString()) // Convert id to String
+        )
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD_USER))
+        }
+        cursor.close()
+        return name // Return name, which can be null
+    }
     fun removeRecipe(recipeId: Int) {
         val db = this.writableDatabase
         val query = """

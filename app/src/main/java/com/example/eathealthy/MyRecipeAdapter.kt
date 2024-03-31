@@ -1,6 +1,7 @@
 package com.example.eathealthy
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -43,9 +44,17 @@ class MyRecipeAdapter(private val username: String, private val password: String
 
         holder.removeBtn.setOnClickListener {
             userDbHelper.removeRecipe(recipe.id)
+            Toast.makeText(context, "Recipe Removed", Toast.LENGTH_SHORT).show()
+            val i = Intent(context, MyRecipeActivity::class.java)
+            i.putExtra("id", recipe.id)
+            context.startActivity(i)
         }
 
-
+        holder.updateBtn.setOnClickListener {
+            val i = Intent(context, UpdateActivity::class.java)
+            i.putExtra("id", recipe.id)
+            context.startActivity(i)
+        }
 
     }
 

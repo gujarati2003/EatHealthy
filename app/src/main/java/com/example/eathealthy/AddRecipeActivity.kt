@@ -75,8 +75,7 @@ class AddRecipeActivity : AppCompatActivity() {
                 val stream = ByteArrayOutputStream()
                 imageBitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray: ByteArray = stream.toByteArray()
-                val recipeId =
-                    userDbHelper.addRecipe(id, recipeName, byteArray, ingredients, directions)
+                val recipeId = userDbHelper.addRecipe(id, recipeName, byteArray, ingredients, directions)
                 return recipeId != -1L
             }
             return false

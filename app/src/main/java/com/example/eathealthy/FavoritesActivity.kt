@@ -24,7 +24,7 @@ class FavoritesActivity : AppCompatActivity() {
 
         val recipes = userDbHelper.getFavoritesRecipes(id!!)
 
-        val adapter = FavoritesRecipeAdapter(username!!, password!!,this, recipes, id!!)
+        val adapter = FavoritesRecipeAdapter(username!!, password!!,this, recipes, id!!, "Favorites")
         binding.recipesRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.recipesRecyclerView.adapter = adapter
     }

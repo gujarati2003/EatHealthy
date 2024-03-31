@@ -160,6 +160,28 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         return name // Return name, which can be null
     }
 
+    fun removeRecipe(recipeId: Int) {
+        val db = this.writableDatabase
+        val query = """
+        DELETE FROM $TABLE_NAME_RECIPES
+        WHERE $COLUMN_ID_RECIPES = $recipeId
+    """.trimIndent()
+
+        db?.execSQL(query)
+        db.close()
+    }
+
+    fun removeFavRecipe(recipeId: Int) {
+        val db = this.writableDatabase
+        val query = """
+        DELETE FROM $TABLE_NAME_FAVORITES
+        WHERE $COLUMN_ID_RECIPES_FAVORITES = $recipeId
+    """.trimIndent()
+
+        db?.execSQL(query)
+        db.close()
+    }
+
     @SuppressLint("Range")
     fun getAllRecipes(): ArrayList<Recipe> {
         val recipesList = ArrayList<Recipe>()
@@ -169,6 +191,38 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         val query = """
         SELECT $TABLE_NAME_RECIPES.* FROM $TABLE_NAME_RECIPES
         JOIN $TABLE_NAME_USER ON $TABLE_NAME_RECIPES.$COLUMN_ID_USER_RECIPES = $TABLE_NAME_USER.$COLUMN_ID_USER
+    """.trimIndent()
+
+        val cursor: Cursor? = try {
+            db.rawQuery(query, null)
+        } catch (e: Exception) {
+            e.printStackTrace() // Log the exception
+            return ArrayList()
+        }
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_RECIPES))
+                val userId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_USER_RECIPES))
+                val name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_RECIPES))
+                val img = cursor.getBlob(cursor.getColumnIndex(COLUMN_IMG_RECIPES))
+                val ingredients = cursor.getString(cursor.getColumnIndex(COLUMN_INGREDIENTS_RECIPES))
+                val directions = cursor.getString(cursor.getColumnIndex(COLUMN_DIRECTIONS_RECIPES))
+                val recipe = Recipe(id, userId, name, img, ingredients, directions)
+                recipesList.add(recipe)
+            } while (cursor.moveToNext())
+        }
+        cursor?.close()
+        return recipesList
+    }
+
+    fun deleteRecipe(id: Int): ArrayList<Recipe> {
+        val recipesList = ArrayList<Recipe>()
+        val db = this.readableDatabase
+
+        val query = """
+        DELETE FROM $TABLE_NAME_RECIPES
+        WHERE $COLUMN_ID_RECIPES = $id
     """.trimIndent()
 
         val cursor: Cursor? = try {
@@ -206,6 +260,39 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 JOIN $TABLE_NAME_RECIPES ON $TABLE_NAME_FAVORITES.$COLUMN_ID_RECIPES_FAVORITES = $TABLE_NAME_RECIPES.$COLUMN_ID_RECIPES
                 WHERE $TABLE_NAME_FAVORITES.$COLUMN_ID_USER_FAVORITES = $id
         )
+    """.trimIndent()
+
+        val cursor: Cursor? = try {
+            db.rawQuery(query, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ArrayList()
+        }
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_RECIPES))
+                val userId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_USER_RECIPES))
+                val name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_RECIPES))
+                val img = cursor.getBlob(cursor.getColumnIndex(COLUMN_IMG_RECIPES))
+                val ingredients = cursor.getString(cursor.getColumnIndex(COLUMN_INGREDIENTS_RECIPES))
+                val directions = cursor.getString(cursor.getColumnIndex(COLUMN_DIRECTIONS_RECIPES))
+                val recipe = Recipe(id, userId, name, img, ingredients, directions)
+                recipesList.add(recipe)
+            } while (cursor.moveToNext())
+        }
+        cursor?.close()
+        return recipesList
+    }
+
+    @SuppressLint("Range")
+    fun getMyRecipes(id: Int): ArrayList<Recipe> {
+        val recipesList = ArrayList<Recipe>()
+        val db = this.readableDatabase
+
+        val query = """
+        SELECT * FROM $TABLE_NAME_RECIPES 
+        WHERE $COLUMN_ID_USER_RECIPES = $id
     """.trimIndent()
 
         val cursor: Cursor? = try {

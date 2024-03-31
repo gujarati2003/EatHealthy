@@ -24,7 +24,6 @@ class HomeActivity : AppCompatActivity() {
 
         val recipes = userDbHelper.getAllRecipes()
         id = userDbHelper.getId(username!!, password!!)
-        Toast.makeText(this, "$id", LENGTH_LONG).show()
         val adapter = RecipeAdapter(username!!, password!!,this, recipes, id!!)
         binding.recipesRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.recipesRecyclerView.adapter = adapter

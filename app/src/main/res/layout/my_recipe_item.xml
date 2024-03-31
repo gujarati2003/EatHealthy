@@ -21,12 +21,12 @@
         android:text="Recipe Name"
         android:fontFamily="@font/abril_fatface"
         android:textSize="22sp"
-    app:layout_constraintStart_toEndOf="@id/recipeImage"
-    app:layout_constraintTop_toTopOf="@id/recipeImage"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginStart="16dp"
-    app:layout_constraintBottom_toTopOf="@id/recipeIngredients"
-    android:layout_marginBottom="8dp"/>
+        app:layout_constraintStart_toEndOf="@id/recipeImage"
+        app:layout_constraintTop_toTopOf="@id/recipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toTopOf="@id/recipeIngredients"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/recipeCreatorBy"
@@ -78,9 +78,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#c7e2cd"
-        app:layout_constraintTop_toTopOf="@id/recipeImage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/recipeIngredients"
+
+        app:layout_constraintTop_toBottomOf="@id/recipeDirections"
         android:text="Remove"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/updateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#c7e2cd"
+        app:layout_constraintStart_toStartOf="@id/recipeIngredients"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/removeBtn"
+        android:text="Update"
         android:layout_marginTop="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

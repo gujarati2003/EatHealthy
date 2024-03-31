@@ -1,5 +1,6 @@
 package com.example.eathealthy
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 class RecipeAdapter(private val username: String, private val password: String, private val context: Context, private val recipeList: List<Recipe>, private val id: Int) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
     private lateinit var userDbHelper: UserDbHelper
     class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val recipeName: TextView = view.findViewById(R.id.recipeName)
+        val recipeName: Button = view.findViewById(R.id.recipeName)
         val recipeIngredients: TextView = view.findViewById(R.id.recipeIngredients)
         val recipeImg: ImageView = view.findViewById(R.id.recipeImage)
         val recipeCreater: TextView = view.findViewById(R.id.recipeCreator)
@@ -47,6 +48,13 @@ class RecipeAdapter(private val username: String, private val password: String, 
             userDbHelper.addToFavorites(id!!, recipe.id)
 
             Toast.makeText(holder.itemView.context, "${recipe.name} added to favorites", Toast.LENGTH_SHORT).show()
+        }
+
+        holder.recipeName.setOnClickListener{
+            val intent = Intent(context, RecipeActivity::class.java).apply {
+                putExtra("id", recipe.id)
+            }
+            context.startActivity(intent)
         }
     }
 

@@ -31,16 +31,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-259dp"
         app:srcCompat="@drawable/ic_launcher_background" />
+
     <TextView
         android:id="@+id/made_by"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/foodimg"
-        android:layout_marginBottom="-28dp"
         android:layout_marginLeft="80dp"
+        android:layout_marginBottom="-28dp"
         android:fontFamily="@font/abril_fatface"
-        android:textSize="12dp"
-        android:text="By: Amy P" />
+        android:text="By: "
+        android:textSize="12dp" />
     <TextView
         android:id="@+id/ingredients"
         android:layout_width="wrap_content"
@@ -63,36 +64,14 @@
         android:fontFamily="@font/abril_fatface"
         android:textSize="12dp"
         android:text="1. " />
-    <TextView
-        android:id="@+id/ingredient1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ingredient_num"
-        android:layout_alignBottom="@+id/ingredients"
-        android:layout_marginBottom="-28dp"
-        android:layout_marginLeft="12dp"
-        android:fontFamily="@font/abril_fatface"
-        android:textSize="12dp"
-        android:text="Butter" />
 
-    <TextView
-        android:id="@+id/amount1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ingredients"
-        android:layout_alignLeft="@+id/ingredient1"
-        android:layout_marginLeft="60dp"
-        android:layout_marginBottom="-28dp"
-        android:fontFamily="@font/abril_fatface"
-        android:text="1 tbs"
-        android:textSize="12dp" />
 
     <!--    Instructions will be added here in a textview, depends on how many-->
     <TextView
         android:id="@+id/direction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/amount1"
+        android:layout_alignBottom="@+id/ingredient_num"
         android:layout_marginBottom="-28dp"
         android:layout_marginLeft="80dp"
         android:fontFamily="@font/abril_fatface"
@@ -109,35 +88,12 @@
         android:fontFamily="@font/abril_fatface"
         android:textSize="12dp"
         android:text="1. " />
-    <TextView
-        android:id="@+id/direction1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/direction_num"
-        android:layout_alignBottom="@+id/direction"
-        android:layout_marginBottom="-28dp"
-        android:layout_marginLeft="12dp"
-        android:fontFamily="@font/abril_fatface"
-        android:textSize="12dp"
-        android:text="Boil water" />
-
-    <TextView
-        android:id="@+id/direction_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/direction"
-        android:layout_alignLeft="@+id/direction1"
-        android:layout_marginLeft="70dp"
-        android:layout_marginBottom="-28dp"
-        android:fontFamily="@font/abril_fatface"
-        android:text="20 min"
-        android:textSize="12dp" />
 
     <Button
-        android:id="@+id/create_account_btn"
+        android:id="@+id/favs_btn"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/direction_time"
+        android:layout_alignBottom="@+id/direction_num"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
         android:layout_marginBottom="-125dp"

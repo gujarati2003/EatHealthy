@@ -317,4 +317,36 @@ class UserDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         cursor?.close()
         return recipesList
     }
+
+    fun getRecipe(id: Int): ArrayList<Recipe>{
+        val recipesList = ArrayList<Recipe>()
+        val db = this.readableDatabase
+
+        val query = """
+        SELECT * FROM $TABLE_NAME_RECIPES 
+        WHERE $COLUMN_ID_RECIPES = $id
+    """.trimIndent()
+
+        val cursor: Cursor? = try {
+            db.rawQuery(query, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ArrayList()
+        }
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_RECIPES))
+                val userId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID_USER_RECIPES))
+                val name = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_RECIPES))
+                val img = cursor.getBlob(cursor.getColumnIndex(COLUMN_IMG_RECIPES))
+                val ingredients = cursor.getString(cursor.getColumnIndex(COLUMN_INGREDIENTS_RECIPES))
+                val directions = cursor.getString(cursor.getColumnIndex(COLUMN_DIRECTIONS_RECIPES))
+                val recipe = Recipe(id, userId, name, img, ingredients, directions)
+                recipesList.add(recipe)
+            } while (cursor.moveToNext())
+        }
+        cursor?.close()
+        return recipesList
+    }
 }
